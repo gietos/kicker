@@ -12,6 +12,9 @@ use Ramsey\Uuid\Uuid;
  */
 class Player
 {
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DELETED = 'deleted';
+
     /**
      * @var string
      * @ORM\Id
@@ -27,18 +30,21 @@ class Player
     /**
      * @ORM\Column(type="decimal", precision=8, scale=2)
      */
-    protected $mean;
+    protected $mean = GameInfo::DEFAULT_INITIAL_MEAN;
 
     /**
      * @ORM\Column(type="decimal", precision=8, scale=2)
      */
-    protected $deviation;
+    protected $deviation = GameInfo::DEFAULT_INITIAL_STANDARD_DEVIATION;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $status = self::STATUS_ACTIVE;
 
     public function __construct()
     {
         $this->id = Uuid::uuid1();
-        $this->mean = GameInfo::DEFAULT_INITIAL_MEAN;
-        $this->deviation = GameInfo::DEFAULT_INITIAL_STANDARD_DEVIATION;
     }
 
     /**
@@ -108,5 +114,21 @@ class Player
     public function getScore()
     {
         return round(($this->mean - (3.0 * $this->deviation)) * 100);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 }

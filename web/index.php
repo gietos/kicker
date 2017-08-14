@@ -2,6 +2,8 @@
 
 use Gietos\Kicker\Command\AbstractCommand;
 use Gietos\Kicker\Command\IndexCommand;
+use Gietos\Kicker\Command\LoginCommand;
+use Gietos\Kicker\Command\LogoutCommand;
 use Gietos\Kicker\Command\PlayerAddCommand;
 use Gietos\Kicker\Command\PlayerDeleteCommand;
 use Gietos\Kicker\Command\PlayerViewCommand;
@@ -24,6 +26,8 @@ $context->fromRequest($request);
 $routes = new RouteCollection;
 
 $routes->add('index', new Route('/', ['_command' => IndexCommand::class]));
+$routes->add('login', new Route('/login', ['_command' => LoginCommand::class]));
+$routes->add('logout', new Route('/logout', ['_command' => LogoutCommand::class]));
 $routes->add('player-add', new Route('/player/add', ['_command' => PlayerAddCommand::class]));
 $routes->add('player-delete', new Route('/player/delete', ['_command' => PlayerDeleteCommand::class]));
 $routes->add('player-view', new Route('/player/{id}', ['_command' => PlayerViewCommand::class]));

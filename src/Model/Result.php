@@ -40,7 +40,7 @@ class Result
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="played_at", type="datetime", nullable=true)
+     * @ORM\Column(name="played_at", type="datetime")
      */
     protected $playedAt;
 

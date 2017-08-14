@@ -14,7 +14,7 @@ if (!file_exists(__DIR__ . '/.env')) {
 
 $dotenv = new Dotenv(__DIR__);
 $dotenv->load();
-$dotenv->required(['DB'])->notEmpty();
+$dotenv->required(['DB', 'SECRET'])->notEmpty();
 
 $config = Setup::createAnnotationMetadataConfiguration([__DIR__ . '/src/Model'], false, null, null, false);
 $conn = [

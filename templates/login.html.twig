@@ -1,0 +1,17 @@
+{% extends "guest.html.twig" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="secret">Secret</label>
+                    <input type="password" class="form-control" id="secret" placeholder="Enter secret" name="secret">
+                </div>
+                <button class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

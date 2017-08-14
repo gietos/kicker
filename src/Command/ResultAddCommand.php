@@ -13,8 +13,6 @@ class ResultAddCommand extends AbstractCommand
 {
     protected function doRun(array $parameters = []): View
     {
-        $this->response->headers->set('Content-type', 'text/html');
-
         $data = $this->request->request->all();
         if (!empty($data)) {
             if (empty($data['winners']) || empty($data['losers'])) {

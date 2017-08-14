@@ -9,8 +9,6 @@ class PlayerDeleteCommand extends AbstractCommand
 {
     protected function doRun(array $parameters = []): View
     {
-        $this->response->headers->set('Content-type', 'text/html');
-
         $data = $this->request->request->all();
         if (!empty($data)) {
             if (empty($data['id'])) {
@@ -18,7 +16,7 @@ class PlayerDeleteCommand extends AbstractCommand
             }
 
             $player = $this->entityManager->find(Player::class, $data['id']);
-            $this->entityManager->remove($player);
+            $player->setStatus(Player::STATUS_DELETED);
             $this->entityManager->flush();
 
             $this->alerts->add('success', 'Player deleted');

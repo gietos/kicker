@@ -54,7 +54,12 @@ abstract class AbstractCommand
     public function run(array $parameters = [])
     {
         $this->session->start();
-        $this->response->headers->set('Content-Type', 'application/json');
+        $this->response->headers->set('Content-type', 'text/html');
+
+        if ($this->session->get('auth', false) == false && !$this instanceof LoginCommand) {
+            $this->redirect('/login');
+        }
+
         $view = $this->doRun($parameters);
         $view->setParam('alerts', $this->alerts->get());
         $this->response->setContent($view->render($this->twig));

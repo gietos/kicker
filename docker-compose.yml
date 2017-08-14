@@ -1,0 +1,10 @@
+version: '3'
+services:
+  web:
+    image: php:7.1-cli
+    environment:
+      VIRTUAL_HOST: kicker-frenzy.ru
+      LETSENCRYPT_HOST: kicker-frenzy.ru
+      LETSENCRYPT_EMAIL: spam@onsky.ru
+    networks:
+      - public

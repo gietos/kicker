@@ -2,11 +2,12 @@
 
 namespace Gietos\Kicker\Command;
 
+use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\Player;
 
 class PlayerViewCommand extends AbstractCommand
 {
-    protected function doRun(array $parameters = [])
+    protected function doRun(array $parameters = []): View
     {
         $this->response->headers->set('Content-type', 'text/html');
 
@@ -14,6 +15,6 @@ class PlayerViewCommand extends AbstractCommand
 
         $player = $this->entityManager->find(Player::class, $id);
 
-        $this->response->setContent($this->twig->render('player/view.html.twig', compact('player')));
+        return $this->render('player/view.html.twig', compact('player'));
     }
 }

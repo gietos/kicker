@@ -8,6 +8,8 @@ use Gietos\Kicker\Command\PlayerViewCommand;
 use Gietos\Kicker\Command\ResultAddCommand;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
@@ -38,6 +40,8 @@ $response = new Response;
 $loader = new Twig_Loader_Filesystem([__DIR__ . '/../templates']);
 $twig = new Twig_Environment($loader);
 
-$command = new $commandClass($request, $response, $entityManager, $twig);
+$session = new Session(new NativeSessionStorage(['cookie_lifetime' => 3600 * 24 * 30]));
+
+$command = new $commandClass($request, $response, $entityManager, $twig, $session);
 $command->run($parameters);
 $response->send();

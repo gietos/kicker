@@ -2,11 +2,12 @@
 
 namespace Gietos\Kicker\Command;
 
+use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\Player;
 
 class PlayerDeleteCommand extends AbstractCommand
 {
-    protected function doRun(array $parameters = [])
+    protected function doRun(array $parameters = []): View
     {
         $this->response->headers->set('Content-type', 'text/html');
 
@@ -19,12 +20,12 @@ class PlayerDeleteCommand extends AbstractCommand
             $player = $this->entityManager->find(Player::class, $data['id']);
             $this->entityManager->remove($player);
             $this->entityManager->flush();
-            $alerts[] = ['class' => 'success', 'message' => 'Player deleted'];
-            $this->response->setContent($this->twig->render('action-completed.html.twig', compact('alerts')));
-            return;
+
+            $this->alerts->add('success', 'Player deleted');
+            return $this->render('action-completed.html.twig');
         }
 
-        $alerts[] = ['class' => 'danger', 'message' => 'Bad request'];
-        $this->response->setContent($this->twig->render('action-completed.html.twig', compact('alerts')));
+        $this->alerts->add('danger', 'Bad request');
+        return $this->render('action-completed.html.twig');
     }
 }

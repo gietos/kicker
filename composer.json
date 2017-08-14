@@ -17,7 +17,8 @@
         "twig/twig": "^2.4",
         "ramsey/uuid": "^3.7",
         "symfony/routing": "^3.3",
-        "symfony/http-foundation": "^3.3"
+        "symfony/http-foundation": "^3.3",
+        "aura/session": "^2.1"
     },
     "autoload": {
         "psr-4": {

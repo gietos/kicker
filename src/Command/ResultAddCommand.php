@@ -2,6 +2,7 @@
 
 namespace Gietos\Kicker\Command;
 
+use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\Player;
 use Gietos\Kicker\Model\Result;
 use Gietos\Kicker\Service\Game;
@@ -10,7 +11,7 @@ use Moserware\Skills\TrueSkill\FactorGraphTrueSkillCalculator;
 
 class ResultAddCommand extends AbstractCommand
 {
-    protected function doRun(array $parameters = [])
+    protected function doRun(array $parameters = []): View
     {
         $this->response->headers->set('Content-type', 'text/html');
 
@@ -35,9 +36,9 @@ class ResultAddCommand extends AbstractCommand
                     $this->entityManager->persist($result);
                     $this->entityManager->flush();
 
-                    $alerts[] = ['class' => 'success', 'message' => 'Result added'];
+                    $this->alerts->add('success', 'Result added');
                 } catch (\Exception $e) {
-                    $alerts[] = ['class' => 'danger', 'message' => $e->getMessage()];
+                    $this->alerts->add('danger', $e->getMessage());
                 }
             }
         }
@@ -46,6 +47,6 @@ class ResultAddCommand extends AbstractCommand
 
         $results = $this->entityManager->getRepository(Result::class)->findBy([], ['playedAt' => 'DESC'], 10);
 
-        $this->response->setContent($this->twig->render('result/add.html.twig', compact('players', 'results', 'alerts')));
+        return $this->render('result/add.html.twig', compact('players', 'results', 'alerts'));
     }
 }

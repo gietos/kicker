@@ -2,20 +2,20 @@
 
 namespace Gietos\Kicker\Command;
 
+use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\Player;
 
 class PlayerAddCommand extends AbstractCommand
 {
-    protected function doRun(array $parameters = [])
+    protected function doRun(array $parameters = []): View
     {
         $this->response->headers->set('Content-type', 'text/html');
 
         $data = $this->request->request->all();
         if (!empty($data)) {
             if (empty($data['name'])) {
-                $alerts[] = ['class' => 'danger', 'message' => 'Name must not be empty'];
-                $this->response->setContent($this->twig->render('player/add.html.twig', compact('alerts')));
-                return;
+                $this->alerts->add('danger', 'Name must not be empty');
+                $this->redirect('/player/add');
             }
 
             try {
@@ -23,16 +23,15 @@ class PlayerAddCommand extends AbstractCommand
                 $player->setName($data['name']);
                 $this->entityManager->persist($player);
                 $this->entityManager->flush();
-                $alerts[] = ['class' => 'success', 'message' => 'Player added'];
-                $this->response->setContent($this->twig->render('player/add.html.twig', compact('alerts')));
-                return;
+
+                $this->alerts->add('success', sprintf('Player <strong>%s</strong> added', $player->getName()));
+                $this->redirect('/player/add');
             } catch (\Exception $e) {
-                $alerts[] = ['class' => 'danger', 'message' => $e->getMessage()];
-                $this->response->setContent($this->twig->render('player/add.html.twig', compact('alerts')));
-                return;
+                $this->alerts->add('danger', $e->getMessage());
+                $this->redirect('/player/add');
             }
         }
 
-        $this->response->setContent($this->twig->render('player/add.html.twig'));
+        return $this->render('player/add.html.twig');
     }
 }

@@ -3,6 +3,7 @@
 namespace Gietos\Kicker\Command;
 
 use Gietos\Kicker\Model\Player;
+use Gietos\Kicker\Model\Result;
 
 class ResultAddCommand extends AbstractCommand
 {
@@ -12,6 +13,8 @@ class ResultAddCommand extends AbstractCommand
 
         $players = $this->entityManager->getRepository(Player::class)->findAll();
 
-        $this->response->setContent($this->twig->render('result/add.html.twig', compact('players')));
+        $results = $this->entityManager->getRepository(Result::class)->findBy([], ['playedAt' => 'DESC'], 10);
+
+        $this->response->setContent($this->twig->render('result/add.html.twig', compact('players', 'results')));
     }
 }

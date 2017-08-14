@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('Europe/Moscow');
+
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Dotenv\Dotenv;

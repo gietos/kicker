@@ -3,13 +3,30 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <h2>Results</h2>
-        <a href="/result/add" class="btn btn-primary">Add result</a>
+        <h2>Recent results</h2>
+        <p>
+            <a href="/result/add" class="btn btn-primary">Add result</a>
+        </p>
+        <table class="table table-sm table-stripped">
+        {% for result in results %}
+            <tr>
+                <td>
+                    {% for winner in result.winners %}
+                        <span class="winner">{{ winner.name }}</span>
+                    {% endfor %}
+                    vs
+                    {% for loser in result.losers %}
+                        <span class="loser">{{ loser.name }}</span>
+                    {% endfor %}
+                </td>
+                <td>{{ result.playedAt|date('Y-m-d H:i')}}</td>
+            </tr>
+        {% endfor %}
+        </table>
     </div>
     <div class="col-md-4">
         <h2>Players</h2>
         <p>
-
             <a href="/player/add" class="btn btn-primary">Add player</a>
         </p>
         <table class="table table-sm table-stripped">

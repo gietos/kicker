@@ -4,6 +4,7 @@ namespace Gietos\Kicker\Command;
 
 use Doctrine\ORM\Query\Expr;
 use Gietos\Kicker\Model\Player;
+use Gietos\Kicker\Model\Result;
 
 class IndexCommand extends AbstractCommand
 {
@@ -19,6 +20,8 @@ class IndexCommand extends AbstractCommand
             ->getResult()
         ;
 
-        $this->response->setContent($this->twig->render('index.html.twig', compact('players')));
+        $results = $this->entityManager->getRepository(Result::class)->findBy([], ['playedAt' => 'DESC'], 10);
+
+        $this->response->setContent($this->twig->render('index.html.twig', compact('players', 'results')));
     }
 }

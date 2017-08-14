@@ -38,6 +38,12 @@ class Result
      */
     protected $losers;
 
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="played_at", type="datetime", nullable=true)
+     */
+    protected $playedAt;
+
     public function __construct()
     {
         $this->id = Uuid::uuid1();
@@ -89,5 +95,21 @@ class Result
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPlayedAt(): \DateTime
+    {
+        return $this->playedAt;
+    }
+
+    /**
+     * @param \DateTime $playedAt
+     */
+    public function setPlayedAt(\DateTime $playedAt)
+    {
+        $this->playedAt = $playedAt;
     }
 }

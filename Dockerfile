@@ -2,6 +2,8 @@ FROM php:7.1-cli
 
 RUN apt-get update --fix-missing && apt-get install -y git zip
 
+RUN mkdir /app
+
 ADD composer.json /app
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \

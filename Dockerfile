@@ -4,8 +4,6 @@ RUN apt-get update --fix-missing && apt-get install -y git zip
 
 ADD composer.json /app
 
-ADD composer.lock /app
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && echo 'PATH=$PATH:/root/.composer/vendor/bin' >> /root/.bashrc
 

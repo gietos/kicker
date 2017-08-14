@@ -38,22 +38,7 @@
     <div class="row">
         <div class="col-md-12">
             <h3>Recent results</h3>
-            <table class="table table-sm table-stripped">
-                {% for result in results %}
-                    <tr>
-                        <td>
-                            {% for winner in result.winners %}
-                                <span class="winner"><i class="fa fa-trophy"></i> {{ winner.name }}</span>
-                            {% endfor %}
-                            vs
-                            {% for loser in result.losers %}
-                                <span class="loser">{{ loser.name }}</span>
-                            {% endfor %}
-                        </td>
-                        <td>{{ result.playedAt|date('Y-m-d H:i')}}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+            {% include 'result/list.html.twig' %}
         </div>
     </div>
 {% endblock %}

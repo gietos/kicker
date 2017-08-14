@@ -13,19 +13,30 @@
         main {
             padding-top: 10px;
         }
+        .player {
+            padding: 10px;
+        }
     </style>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <script src="https://use.fontawesome.com/8cbec3a75d.js"></script>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Kicker Frenzy</a>
+    <a class="navbar-brand" href="/">Kicker Frenzy</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 </nav>
 <div class="container">
     <main>
+        {% if alerts is defined %}
+            {% for alert in alerts %}
+                <div class="alert alert-{{ alert.class }}" role="alert">
+                    {{ alert.message }}
+                </div>
+            {% endfor %}
+        {% endif %}
         {% block content %}{% endblock %}
     </main>
 </div>

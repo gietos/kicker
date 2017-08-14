@@ -1,0 +1,15 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Player {{ player.name }}{% endblock %}
+
+{% block content %}
+    <h2>Player {{ player.name }}</h2>
+    <form method="POST" action="/player/delete">
+        <div class="row">
+            <div class="col-md-6">
+                    <input type="hidden" name="id" value="{{ player.id }}">
+                <button class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

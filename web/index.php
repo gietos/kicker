@@ -2,6 +2,9 @@
 
 use Gietos\Kicker\Command\AbstractCommand;
 use Gietos\Kicker\Command\IndexCommand;
+use Gietos\Kicker\Command\PlayerAddCommand;
+use Gietos\Kicker\Command\PlayerDeleteCommand;
+use Gietos\Kicker\Command\PlayerViewCommand;
 use Gietos\Kicker\Command\ResultAddCommand;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +22,9 @@ $context->fromRequest($request);
 $routes = new RouteCollection;
 
 $routes->add('index', new Route('/', ['_command' => IndexCommand::class]));
+$routes->add('player-add', new Route('/player/add', ['_command' => PlayerAddCommand::class]));
+$routes->add('player-delete', new Route('/player/delete', ['_command' => PlayerDeleteCommand::class]));
+$routes->add('player-view', new Route('/player/{id}', ['_command' => PlayerViewCommand::class]));
 $routes->add('result-add', new Route('/result/add', ['_command' => ResultAddCommand::class]));
 
 $matcher = new UrlMatcher($routes, $context);

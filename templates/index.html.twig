@@ -8,6 +8,28 @@
     </div>
     <div class="col-md-4">
         <h2>Players</h2>
+        <p>
+
+            <a href="/player/add" class="btn btn-primary">Add player</a>
+        </p>
+        <table class="table table-sm table-stripped">
+            <thead class="thead-default"><tr>
+                <th>Player</th>
+                <th>Score</th>
+            </tr></thead>
+            {% for player in players %}
+                <tr>
+                    <td>
+                        <i class="fa fa-user-circle-o"></i>
+                        <a href="/player/{{ player.id }}">{{ player.name }}</a>
+                    </td>
+                    <td>
+                        <strong>{{ player.score }}</strong>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
     </div>
 </div>
 {% endblock %}

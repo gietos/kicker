@@ -1,0 +1,27 @@
+{
+    "name": "gietos/kicker",
+    "description": "PHP project.",
+    "keywords": [],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergey Kasatkin",
+            "email": "spam@onsky.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "phpskills/phpskills": "^1.0",
+        "vlucas/phpdotenv": "^2.4",
+        "doctrine/orm": "^2.5",
+        "twig/twig": "^2.4",
+        "ramsey/uuid": "^3.7",
+        "symfony/routing": "^3.3",
+        "symfony/http-foundation": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gietos\\Kicker\\": "src/"
+        }
+    }
+}

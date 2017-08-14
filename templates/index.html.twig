@@ -12,7 +12,7 @@
             <tr>
                 <td>
                     {% for winner in result.winners %}
-                        <span class="winner">{{ winner.name }}</span>
+                        <span class="winner"><i class="fa fa-trophy"></i> {{ winner.name }}</span>
                     {% endfor %}
                     vs
                     {% for loser in result.losers %}

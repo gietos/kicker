@@ -47,6 +47,7 @@ class Result
     public function __construct()
     {
         $this->id = Uuid::uuid1();
+        $this->playedAt = new \DateTime;
     }
 
     /**

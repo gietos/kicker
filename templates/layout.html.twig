@@ -16,13 +16,16 @@
         h2 {
             margin-top: 10px;
         }
-        span.winner, span.loser {
+        span.player {
             border-radius: 2px;
             padding: 3px;
             background: #e9ecef;
         }
-        span.winner {
-            font-weight: bold;
+        div.team {
+            display: inline-block;
+        }
+        div.team:last-child::before {
+            content: 'vs';
         }
     </style>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />

@@ -5,20 +5,23 @@ namespace Gietos\Kicker\Command;
 use Doctrine\ORM\Query\Expr\OrderBy;
 use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\Player;
+use Gietos\Kicker\Service\Game;
+use Moserware\Skills\GameInfo;
+use Moserware\Skills\TrueSkill\FactorGraphTrueSkillCalculator;
 
 class MatchCommand extends AbstractCommand
 {
     protected function doRun(array $parameters = []): View
     {
+        $match = null;
         $data = $this->request->request->all();
         if (!empty($data)) {
             if (empty($data['players'])) {
-                $alerts[] = ['class' => 'danger', 'message' => 'Players must not be empty'];
+                $this->alerts->add('danger', 'Players must not be empty');
             } else {
                 try {
-                    // ... Match
-
-                    $match = 'Match';
+                    $game = new Game($this->entityManager, new FactorGraphTrueSkillCalculator, new GameInfo);
+                    $match = $game->getCombinations($data['players']);
                 } catch (\Exception $e) {
                     $this->alerts->add('danger', $e->getMessage());
                 }

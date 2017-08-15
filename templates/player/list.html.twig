@@ -1,0 +1,23 @@
+<table class="table table-sm table-stripped">
+    <thead class="thead-default"><tr>
+        <th>Player</th>
+        <th>Score</th>
+        <th>W</th>
+    </tr></thead>
+    {% for player in players %}
+        <tr>
+            <td>
+                <i class="fa fa-user-circle-o"></i>
+                <a href="/player/{{ player.id }}">{{ player.name }}</a>
+            </td>
+            <td>
+                <strong>{{ player.score }}</strong>
+            </td>
+            <td>
+                {% if wins[player.id] != 0 and losses[player.id] != 0 %}
+                    {{ (wins[player.id] / (wins[player.id] + losses[player.id]) * 100)|round }}%
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

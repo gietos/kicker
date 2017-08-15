@@ -17,7 +17,7 @@ class ResultAddCommand extends AbstractCommand
         $data = $this->request->request->all();
         if (!empty($data)) {
             if (empty($data['winners']) || empty($data['losers'])) {
-                $alerts[] = ['class' => 'danger', 'message' => 'Winners and losers must not be empty'];
+                $this->alerts->add('danger' , 'Winners and losers must not be empty');
             } else {
                 try {
                     $winners = $this->entityManager->getRepository(Player::class)->findBy(['id' => $data['winners']]);

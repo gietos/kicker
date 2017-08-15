@@ -59,7 +59,7 @@
                     otherSelect.find('option[value="'+$(this).val()[option]+'"]').prop('disabled', true);
                 }
             })
-            .on('click', '.js-clear', function (e) {
+            .on('click', '.js-clear', function () {
                 $('#winnersSelect, #losersSelect').find('option:selected').prop('selected', false)
                 $('#winnersSelect, #losersSelect').find('option:disabled').prop('disabled', false)
             })

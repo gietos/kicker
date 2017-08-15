@@ -103,4 +103,51 @@ class Game
 
         return $counts[0]['losses'];
     }
+
+    public function getTeamScore($playerIds)
+    {
+        $score = 0;
+        foreach ($playerIds as $playerId) {
+            /** @var \Gietos\Kicker\Model\Player $player */
+            $player = $this->entityManager->find(\Gietos\Kicker\Model\Player::class, $playerId);
+            $score += $player->getScore();
+        }
+
+        return $score;
+    }
+
+    public function getCombinations($array) {
+        $minDiff = null; $bestMatch = null;
+
+        for ($j=1;$j<=count($array)-1;$j++) {
+            $combination = [
+                'teamA' => [
+                    'players' => [$array[0], $array[$j]],
+                    'score' => $this->getTeamScore([$array[0], $array[$j]]),
+                ],
+                'teamB' => [
+                    'players' => array_diff($array, [$array[0], $array[$j]]),
+                    'score' => $this->getTeamScore(array_diff($array, [$array[0], $array[$j]])),
+                ],
+            ];
+            $combination['diff'] = abs($combination['teamA']['score'] - $combination['teamB']['score']);
+
+            if ($minDiff === null || $combination['diff'] < $minDiff) {
+                $minDiff = $combination['diff'];
+                $bestMatch = $combination;
+            }
+        }
+
+        $teamA = $teamB = [];
+        foreach ($bestMatch['teamA']['players'] as $player) {
+            $teamA[] = $this->entityManager->find(\Gietos\Kicker\Model\Player::class, $player);
+        }
+        foreach ($bestMatch['teamB']['players'] as $player) {
+            $teamB[] = $this->entityManager->find(\Gietos\Kicker\Model\Player::class, $player);
+        }
+
+        return [$teamA, $teamB];
+    }
+
+
 }

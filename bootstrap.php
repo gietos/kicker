@@ -17,6 +17,7 @@ $dotenv->load();
 $dotenv->required(['DB', 'SECRET'])->notEmpty();
 
 $config = Setup::createAnnotationMetadataConfiguration([__DIR__ . '/src/Model'], false, null, null, false);
+$config->setProxyDir(sys_get_temp_dir());
 $conn = [
     'driver' => 'pdo_sqlite',
     'path' => __DIR__ . '/' . $_ENV['DB'],

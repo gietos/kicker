@@ -20,7 +20,7 @@ class Result
 
     /**
      * @var Player[]
-     * @ORM\ManyToMany(targetEntity="Player")
+     * @ORM\ManyToMany(targetEntity="Player", fetch="EXTRA_LAZY")
      * @ORM\JoinTable(name="result_winner",
      *      joinColumns={@ORM\JoinColumn(name="result_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="player_id", referencedColumnName="id")}
@@ -30,7 +30,7 @@ class Result
 
     /**
      * @var Player[]
-     * @ORM\ManyToMany(targetEntity="Player")
+     * @ORM\ManyToMany(targetEntity="Player", fetch="EXTRA_LAZY")
      * @ORM\JoinTable(name="result_loser",
      *      joinColumns={@ORM\JoinColumn(name="result_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="player_id", referencedColumnName="id")}

@@ -18,6 +18,8 @@ class MatchCommand extends AbstractCommand
         if (!empty($data)) {
             if (empty($data['players'])) {
                 $this->alerts->add('danger', 'Players must not be empty');
+            } elseif(count($data['players']) != 4) {
+                $this->alerts->add('danger', '4 players must be selected');
             } else {
                 try {
                     $game = new Game($this->entityManager, new FactorGraphTrueSkillCalculator, new GameInfo);

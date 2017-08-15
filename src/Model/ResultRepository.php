@@ -17,7 +17,7 @@ class ResultRepository
         $this->entityManager = $entityManager;
     }
 
-    public function getAll($limit = 10)
+    public function getAll($limit = 20)
     {
         return $this->entityManager->getRepository(Result::class)->findBy([], ['playedAt' => 'DESC'], $limit);
     }

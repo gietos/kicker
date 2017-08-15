@@ -4,6 +4,7 @@ namespace Gietos\Kicker\Command;
 
 use Doctrine\ORM\Query\Expr\OrderBy;
 use Gietos\Kicker\Component\View;
+use Gietos\Kicker\Model\Gain;
 use Gietos\Kicker\Model\Player;
 use Gietos\Kicker\Model\Result;
 use Gietos\Kicker\Service\Game;
@@ -34,6 +35,21 @@ class IndexCommand extends AbstractCommand
 
         $results = $this->entityManager->getRepository(Result::class)->findBy([], ['playedAt' => 'DESC'], 10);
 
-        return $this->render('index.html.twig', compact('players', 'results', 'wins', 'losses'));
+        $gains = $this->entityManager->createQueryBuilder()
+            ->select('g')
+            ->from(Gain::class, 'g')
+            ->andWhere('g.result IN (:results)')
+            ->setParameter('results', $results)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        $gainMap = [];
+        foreach ($gains as $gain) {
+            /** @var Gain $gain */
+            $gainMap[$gain->getResult()->getId()][$gain->getPlayer()->getId()] = $gain->getGain();
+        }
+
+        return $this->render('index.html.twig', compact('players', 'results', 'wins', 'losses', 'gainMap'));
     }
 }

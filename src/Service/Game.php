@@ -4,6 +4,7 @@ namespace Gietos\Kicker\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Gietos\Kicker\Model\Gain;
 use Gietos\Kicker\Model\Result;
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Player;
@@ -67,8 +68,17 @@ class Game
             $player = $players[$skillPlayer->getId()];
             /** @var Rating $rating */
             $rating = $ratingContainer->getRating($skillPlayer);
+
+            $gain = new Gain;
+            $gain->setPlayer($player);
+            $gain->setResult($result);
+            $oldScore = $player->getScore();
+
             $player->setMean($rating->getMean());
             $player->setDeviation($rating->getStandardDeviation());
+
+            $gain->setGain($player->getScore() - $oldScore);
+            $this->entityManager->persist($gain);
         }
 
         return $players;

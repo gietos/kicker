@@ -10,12 +10,22 @@
         <tr>
             <td>
                 {% for player in result.winners %}
-                    <span class="player"><a href="/player/{{ player.id }}">{{ player.name }}</a></span>
+                    <span class="player">
+                        <a href="/player/{{ player.id }}">{{ player.name }}</a>
+                        {% if gainMap[result.id][player.id] is defined %}
+                            {% include 'gain.html.twig' with {'gain': gainMap[result.id][player.id]} %}
+                        {% endif %}
+                    </span>
                 {% endfor %}
             </td>
             <td>
                 {% for player in result.losers %}
-                    <span class="player"><a href="/player/{{ player.id }}">{{ player.name }}</a></span>
+                    <span class="player">
+                        <a href="/player/{{ player.id }}">{{ player.name }}</a>
+                        {% if gainMap[result.id][player.id] is defined %}
+                            {% include 'gain.html.twig' with {'gain': gainMap[result.id][player.id]} %}
+                        {% endif %}
+                    </span>
                 {% endfor %}
             </td>
             <td>{{ result.playedAt|date('Y-m-d H:i') }}</td>

@@ -13,6 +13,7 @@
             <thead class="thead-default"><tr>
                 <th>Player</th>
                 <th>Score</th>
+                <th>W</th>
             </tr></thead>
             {% for player in players %}
                 <tr>
@@ -22,6 +23,11 @@
                     </td>
                     <td>
                         <strong>{{ player.score }}</strong>
+                    </td>
+                    <td>
+                        {% if wins[player.id] != 0 and losses[player.id] != 0 %}
+                            {{ (wins[player.id] / (wins[player.id] + losses[player.id]) * 100)|round }}%
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

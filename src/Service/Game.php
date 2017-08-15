@@ -2,6 +2,8 @@
 
 namespace Gietos\Kicker\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Gietos\Kicker\Model\Result;
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Player;
@@ -13,17 +15,23 @@ use Moserware\Skills\TrueSkill\FactorGraphTrueSkillCalculator;
 class Game
 {
     /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
      * @var FactorGraphTrueSkillCalculator
      */
-    private $calculator;
+    protected $calculator;
 
     /**
      * @var GameInfo
      */
-    private $gameInfo;
+    protected $gameInfo;
 
-    public function __construct(FactorGraphTrueSkillCalculator $calculator, GameInfo $gameInfo)
+    public function __construct(EntityManagerInterface $entityManager, FactorGraphTrueSkillCalculator $calculator, GameInfo $gameInfo)
     {
+        $this->entityManager = $entityManager;
         $this->calculator = $calculator;
         $this->gameInfo = $gameInfo;
     }
@@ -64,5 +72,35 @@ class Game
         }
 
         return $players;
+    }
+
+    public function getWins(\Gietos\Kicker\Model\Player $player)
+    {
+        $rsm = new ResultSetMapping;
+        $rsm->addScalarResult('wins', 'wins');
+        $query = $this->entityManager->createNativeQuery('SELECT COUNT(*) wins FROM result_winner WHERE player_id = ?', $rsm);
+        $query->setParameter(1, $player->getId());
+
+        $counts = $query->getResult();
+        if (count($counts) !== 1) {
+            return 0;
+        }
+
+        return $counts[0]['wins'];
+    }
+
+    public function getLosses(\Gietos\Kicker\Model\Player $player)
+    {
+        $rsm = new ResultSetMapping;
+        $rsm->addScalarResult('losses', 'losses');
+        $query = $this->entityManager->createNativeQuery('SELECT COUNT(*) losses FROM result_loser WHERE player_id = ?', $rsm);
+        $query->setParameter(1, $player->getId());
+
+        $counts = $query->getResult();
+        if (count($counts) !== 1) {
+            return 0;
+        }
+
+        return $counts[0]['losses'];
     }
 }

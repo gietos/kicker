@@ -2,6 +2,7 @@
 
 namespace Gietos\Kicker\Command;
 
+use Doctrine\ORM\Query\Expr\OrderBy;
 use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\Player;
 use Gietos\Kicker\Model\Result;
@@ -25,7 +26,7 @@ class ResultAddCommand extends AbstractCommand
                     $result->setWinners($winners);
                     $result->setLosers($losers);
 
-                    $game = new Game(new FactorGraphTrueSkillCalculator, new GameInfo);
+                    $game = new Game($this->entityManager, new FactorGraphTrueSkillCalculator, new GameInfo);
                     $players = $game->getRatings($result);
 
                     foreach ($players as $player) {
@@ -41,10 +42,18 @@ class ResultAddCommand extends AbstractCommand
             }
         }
 
-        $players = $this->entityManager->getRepository(Player::class)->findAll();
+        $qb = $this->entityManager->createQueryBuilder();
+        $players = $qb->select('p')
+            ->from(Player::class, 'p')
+            ->andWhere('p.status = :statusActive')
+            ->setParameter('statusActive', Player::STATUS_ACTIVE)
+            ->addOrderBy(new OrderBy('p.mean - (3 * p.deviation)', 'DESC'))
+            ->getQuery()
+            ->getResult()
+        ;
 
         $results = $this->entityManager->getRepository(Result::class)->findBy([], ['playedAt' => 'DESC'], 10);
 
-        return $this->render('result/add.html.twig', compact('players', 'results', 'alerts'));
+        return $this->render('result/add.html.twig', compact('players', 'results'));
     }
 }

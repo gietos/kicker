@@ -4,6 +4,7 @@ use Gietos\Kicker\Command\AbstractCommand;
 use Gietos\Kicker\Command\IndexCommand;
 use Gietos\Kicker\Command\LoginCommand;
 use Gietos\Kicker\Command\LogoutCommand;
+use Gietos\Kicker\Command\MatchCommand;
 use Gietos\Kicker\Command\PlayerAddCommand;
 use Gietos\Kicker\Command\PlayerDeleteCommand;
 use Gietos\Kicker\Command\PlayerViewCommand;
@@ -32,6 +33,7 @@ $routes->add('player-add', new Route('/player/add', ['_command' => PlayerAddComm
 $routes->add('player-delete', new Route('/player/delete', ['_command' => PlayerDeleteCommand::class]));
 $routes->add('player-view', new Route('/player/{id}', ['_command' => PlayerViewCommand::class]));
 $routes->add('result-add', new Route('/result/add', ['_command' => ResultAddCommand::class]));
+$routes->add('match', new Route('/match', ['_command' => MatchCommand::class]));
 
 $matcher = new UrlMatcher($routes, $context);
 

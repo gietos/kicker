@@ -32,5 +32,5 @@
     </form>
 
     <h2>Recent results</h2>
-    {% include 'result/list.html.twig' %}
+    {% include 'result/list.html.twig' with {'currentPlayer': player} %}
 {% endblock %}

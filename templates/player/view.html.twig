@@ -26,6 +26,7 @@
                 <input type="hidden" name="id" value="{{ player.id }}">
                 <button class="btn btn-danger">Delete</button>
                 {% endif %}
+                <a href="/player/edit/{{ player.id }}" class="btn btn-secondary">Edit</a>
             </div>
         </div>
     </form>

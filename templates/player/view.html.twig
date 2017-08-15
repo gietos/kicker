@@ -10,6 +10,14 @@
                 <p>
                     Score: <strong>{{ player.score }}</strong>
                 </p>
+                <p>
+                    Games played: <strong>{{ gamesCount }}</strong>
+                </p>
+                {% if winRate is defined %}
+                <p>
+                    Win rate: <strong>{{ winRate|round }}%</strong>
+                </p>
+                {% endif %}
                 {% if player.status == 'deleted' %}
                 <p class="text-muted">
                     Deleted

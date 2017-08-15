@@ -2,8 +2,10 @@
 
 namespace Gietos\Kicker\Command;
 
+use Doctrine\ORM\Query\ResultSetMapping;
 use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\Player;
+use Gietos\Kicker\Model\Result;
 use Gietos\Kicker\Service\Game;
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\TrueSkill\FactorGraphTrueSkillCalculator;
@@ -26,6 +28,23 @@ class PlayerViewCommand extends AbstractCommand
             $winRate = $wins / $gamesCount * 100;
         }
 
-        return $this->render('player/view.html.twig', compact('player', 'gamesCount', 'winRate'));
+        $rsm = new ResultSetMapping;
+        $rsm->addEntityResult(Result::class, 'r');
+        $rsm->addFieldResult('r', 'id', 'id');
+        $rsm->addFieldResult('r', 'played_at', 'playedAt');
+        $query = $this->entityManager
+            ->createNativeQuery('SELECT r.* FROM (SELECT rl.result_id id
+               FROM result_loser rl
+               WHERE rl.player_id = ?
+               UNION SELECT rw.result_id id
+                     FROM result_winner rw
+                     WHERE rw.player_id = ?
+                      ) rp
+                JOIN result r ON r.id = rp.id
+                ', $rsm)
+            ->setParameter(1, $player->getId());
+        $results = $query->getResult();
+
+        return $this->render('player/view.html.twig', compact('player', 'gamesCount', 'winRate', 'results'));
     }
 }

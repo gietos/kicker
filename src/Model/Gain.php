@@ -20,14 +20,14 @@ class Gain
 
     /**
      * @var Player
-     * @ORM\ManyToOne(targetEntity="Player", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Player")
      * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
      */
     protected $player;
 
     /**
      * @var Result
-     * @ORM\ManyToOne(targetEntity="Result", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Result")
      * @ORM\JoinColumn(name="result_id", referencedColumnName="id")
      */
     protected $result;

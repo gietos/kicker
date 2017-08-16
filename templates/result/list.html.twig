@@ -3,36 +3,36 @@
     <tr>
         <th>Win</th>
         <th>Lose</th>
-        <th>Time</th>
+        <th>Played</th>
     </tr>
     </thead>
     {% for result in results %}
         <tr>
             <td>
                 {% for player in result.winners %}
-                    <span class="player">
+                    <div><span class="player">
                         {{ player == currentPlayer ? '<strong>' }}
                             <a href="/player/{{ player.id }}">{{ player.name }}</a>
                             {% if gainMap[result.id][player.id] is defined %}
                                 {% include 'gain.html.twig' with {'gain': gainMap[result.id][player.id]} %}
                             {% endif %}
                         {{ player == currentPlayer ? '</strong>' }}
-                    </span>
+                    </span></div>
                 {% endfor %}
             </td>
             <td>
                 {% for player in result.losers %}
-                    <span class="player">
+                    <div><span class="player">
                         {{ player == currentPlayer ? '<strong>' }}
                             <a href="/player/{{ player.id }}">{{ player.name }}</a>
                             {% if gainMap[result.id][player.id] is defined %}
                                 {% include 'gain.html.twig' with {'gain': gainMap[result.id][player.id]} %}
                             {% endif %}
                         {{ player == currentPlayer ? '</strong>' }}
-                    </span>
+                        </span></div>
                 {% endfor %}
             </td>
-            <td>{{ result.playedAt|date('Y-m-d H:i') }}</td>
+            <td>{{ result.playedAt|date('j M') }}</td>
         </tr>
     {% endfor %}
 </table>

@@ -1,0 +1,20 @@
+main {
+    padding-top: 10px;
+}
+h2 {
+    margin-top: 10px;
+}
+span.player {
+    border-radius: 2px;
+    padding: 3px;
+    background: #e9ecef;
+}
+span.player:not(:last-child) {
+    margin-right: 5px;
+}
+div.team {
+    display: inline-block;
+}
+div.team:last-child::before {
+    content: 'vs';
+}

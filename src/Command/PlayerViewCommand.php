@@ -2,6 +2,7 @@
 
 namespace Gietos\Kicker\Command;
 
+use Doctrine\Common\Util\Debug;
 use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\GainRepository;
 use Gietos\Kicker\Model\Player;

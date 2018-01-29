@@ -2,9 +2,11 @@
 
 use Gietos\Kicker\Command\AbstractCommand;
 use Gietos\Kicker\Command\IndexCommand;
+use Gietos\Kicker\Command\LeagueAddCommand;
 use Gietos\Kicker\Command\LoginCommand;
 use Gietos\Kicker\Command\LogoutCommand;
 use Gietos\Kicker\Command\MatchCommand;
+use Gietos\Kicker\Command\PasswordChangeCommand;
 use Gietos\Kicker\Command\PlayerAddCommand;
 use Gietos\Kicker\Command\PlayerDeleteCommand;
 use Gietos\Kicker\Command\PlayerEditCommand;
@@ -29,12 +31,14 @@ $routes = new RouteCollection;
 
 $routes->add('index', new Route('/', ['_command' => IndexCommand::class]));
 $routes->add('login', new Route('/login', ['_command' => LoginCommand::class]));
+$routes->add('password-change', new Route('/password-change', ['_command' => PasswordChangeCommand::class]));
 $routes->add('logout', new Route('/logout', ['_command' => LogoutCommand::class]));
 $routes->add('player-add', new Route('/player/add', ['_command' => PlayerAddCommand::class]));
 $routes->add('player-edit', new Route('/player/edit/{id}', ['_command' => PlayerEditCommand::class]));
 $routes->add('player-delete', new Route('/player/delete', ['_command' => PlayerDeleteCommand::class]));
 $routes->add('player-view', new Route('/player/{id}', ['_command' => PlayerViewCommand::class]));
 $routes->add('result-add', new Route('/result/add', ['_command' => ResultAddCommand::class]));
+$routes->add('league-add', new Route('/league/add', ['_command' => LeagueAddCommand::class]));
 $routes->add('match', new Route('/match', ['_command' => MatchCommand::class]));
 
 $matcher = new UrlMatcher($routes, $context);

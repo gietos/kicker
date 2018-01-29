@@ -11,7 +11,7 @@
                     <label for="winnersSelect">Winners</label>
                     <select multiple class="form-control" id="winnersSelect" name="winners[]">
                         {% for player in players %}
-                            <option value="{{ player.id }}">{{ player.name }}</option>
+                            <option value="{{ player.id }}">[{{ player.league.name }}] {{ player.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -21,7 +21,7 @@
                     <label for="losersSelect">Losers</label>
                     <select multiple class="form-control" id="losersSelect" name="losers[]">
                         {% for player in players %}
-                            <option value="{{ player.id }}">{{ player.name }}</option>
+                            <option value="{{ player.id }}">[{{ player.league.name }}] {{ player.name }}</option>
                         {% endfor %}
                     </select>
                 </div>

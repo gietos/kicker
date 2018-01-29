@@ -15,6 +15,9 @@ class Player
     const STATUS_ACTIVE = 'active';
     const STATUS_DELETED = 'deleted';
 
+    const ROLE_PLAYER = 'player';
+    const ROLE_ADMIN = 'admin';
+
     /**
      * @var string
      * @ORM\Id
@@ -23,9 +26,22 @@ class Player
     protected $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string")
      */
     protected $name;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $role = self::ROLE_PLAYER;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $password;
 
     /**
      * @ORM\Column(type="decimal", precision=8, scale=2)
@@ -41,6 +57,13 @@ class Player
      * @ORM\Column(type="string", nullable=true)
      */
     protected $status = self::STATUS_ACTIVE;
+
+    /**
+     * @var League
+     * @ORM\ManyToOne(targetEntity="League", inversedBy="players")
+     * @ORM\JoinColumn(name="league_id")
+     */
+    protected $league;
 
     public function __construct()
     {
@@ -130,5 +153,53 @@ class Player
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return League
+     */
+    public function getLeague(): ?League
+    {
+        return $this->league;
+    }
+
+    /**
+     * @param League $league
+     */
+    public function setLeague(?League $league)
+    {
+        $this->league = $league;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password)
+    {
+        $this->password = hash('sha256', $password);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param string $role
+     */
+    public function setRole(string $role)
+    {
+        $this->role = $role;
     }
 }

@@ -1,0 +1,62 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Create league{% endblock %}
+
+{% block content %}
+    <h2>Create league</h2>
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control" id="name" placeholder="Enter name" name="name">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ownerSelect">Owner</label>
+                    <select class="form-control" id="ownerSelect" name="owner">
+                        {% for player in players %}
+                            <option value="{{ player.id }}">{{ player.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="playersSelect">Players</label>
+                    <select multiple class="form-control" id="playersSelect" name="players[]">
+                        {% for player in players %}
+                            <option value="{{ player.id }}">{{ player.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <button class="btn btn-primary">Save</button>
+
+                    <button type="button" class="btn btn-default js-clear">Clear</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+    $(function () {
+        $(document)
+            .on('click', '.js-clear', function () {
+                $('#playersSelect').find('option:selected').prop('selected', false)
+            })
+        ;
+    });
+</script>
+{% endblock %}

@@ -24,16 +24,24 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/result/add"><i class="fa fa-soccer-ball-o"></i> Add result</a>
+                <a class="nav-link" href="/result/add"><i class="fa fa-fw fa-soccer-ball-o"></i> Add result</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/match"><i class="fa fa-arrows-alt"></i> Match</a>
+                <a class="nav-link" href="/match"><i class="fa fa-fw fa-arrows-alt"></i> Match</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/player/add"><i class="fa fa-user-plus"></i> Add player</a>
+                <a class="nav-link" href="/player/add"><i class="fa fa-fw fa-user-plus"></i> Add player</a>
+            </li>
+            {% if currentPlayer.role == 'admin' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/league/add"><i class="fa fa-fw fa-users"></i> Add league</a>
+                </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="/password-change"><i class="fa fa-fw fa-lock"></i> Change password</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/logout"><i class="fa fa-sign-out"></i> Logout</a>
+                <a class="nav-link" href="/logout"><i class="fa fa-fw fa-sign-out"></i>({{ currentPlayer.name }}) Logout</a>
             </li>
         </ul>
     </div>

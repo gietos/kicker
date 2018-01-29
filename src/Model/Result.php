@@ -39,6 +39,13 @@ class Result
     protected $losers;
 
     /**
+     * @var Player
+     * @ORM\ManyToOne(targetEntity="Player")
+     * @ORM\JoinColumn(name="added_by", referencedColumnName="id")
+     */
+    protected $addedBy;
+
+    /**
      * @var \DateTime
      * @ORM\Column(name="played_at", type="datetime")
      */
@@ -112,5 +119,21 @@ class Result
     public function setPlayedAt(\DateTime $playedAt)
     {
         $this->playedAt = $playedAt;
+    }
+
+    /**
+     * @return Player
+     */
+    public function getAddedBy(): Player
+    {
+        return $this->addedBy;
+    }
+
+    /**
+     * @param Player $addedBy
+     */
+    public function setAddedBy(Player $addedBy)
+    {
+        $this->addedBy = $addedBy;
     }
 }

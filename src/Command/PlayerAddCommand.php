@@ -3,6 +3,8 @@
 namespace Gietos\Kicker\Command;
 
 use Gietos\Kicker\Component\View;
+use Gietos\Kicker\Model\League;
+use Gietos\Kicker\Model\LeagueRepository;
 use Gietos\Kicker\Model\Player;
 
 class PlayerAddCommand extends AbstractCommand
@@ -19,6 +21,8 @@ class PlayerAddCommand extends AbstractCommand
             try {
                 $player = new Player;
                 $player->setName($data['name']);
+                $player->setPassword($data['password']);
+                $player->setLeague($this->entityManager->find(League::class, $data['league']));
                 $this->entityManager->persist($player);
                 $this->entityManager->flush();
 
@@ -30,6 +34,12 @@ class PlayerAddCommand extends AbstractCommand
             }
         }
 
-        return $this->render('player/add.html.twig');
+        if ($this->currentPlayer->getRole() == Player::ROLE_ADMIN) {
+            $leagues = (new LeagueRepository($this->entityManager))->getAll();
+        } else {
+            $leagues = (new LeagueRepository($this->entityManager))->getOwn($this->currentPlayer);
+        }
+
+        return $this->render('player/add.html.twig', compact('leagues'));
     }
 }

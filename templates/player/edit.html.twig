@@ -8,10 +8,39 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
+                    <label for="leagueSelect">League</label>
+                    <select class="form-control" id="leagueSelect" name="league">
+                        {% for league in leagues %}
+                            <option {{ player.league.id == league.id ? 'selected ' }}value="{{ league.id }}">{{ league.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
                     <label for="name">Name</label>
                     <input class="form-control" id="name" placeholder="Enter name" name="name" value="{{ player.name }}">
                 </div>
-                <button class="btn btn-primary">Save</button>
+            </div>
+        </div>
+        {% if currentUser.role == 'admin' %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password" name="password"/>
+
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <button class="btn btn-primary">Submit</button>
+                </div>
             </div>
         </div>
     </form>

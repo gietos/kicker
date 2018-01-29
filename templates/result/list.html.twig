@@ -12,7 +12,7 @@
                 {% for player in result.winners %}
                     <div><span class="player">
                         {{ player == currentPlayer ? '<strong>' }}
-                            <a href="/player/{{ player.id }}">{{ player.name }}</a>
+                            <a href="/player/{{ player.id }}">[{{ player.league.name }}] {{ player.name }}</a>
                             {% if gainMap[result.id][player.id] is defined %}
                                 {% include 'gain.html.twig' with {'gain': gainMap[result.id][player.id]} %}
                             {% endif %}
@@ -24,7 +24,7 @@
                 {% for player in result.losers %}
                     <div><span class="player">
                         {{ player == currentPlayer ? '<strong>' }}
-                            <a href="/player/{{ player.id }}">{{ player.name }}</a>
+                            <a href="/player/{{ player.id }}">[{{ player.league.name }}] {{ player.name }}</a>
                             {% if gainMap[result.id][player.id] is defined %}
                                 {% include 'gain.html.twig' with {'gain': gainMap[result.id][player.id]} %}
                             {% endif %}

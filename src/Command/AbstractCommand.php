@@ -5,6 +5,7 @@ namespace Gietos\Kicker\Command;
 use Doctrine\ORM\EntityManagerInterface;
 use Gietos\Kicker\Component\Alerts;
 use Gietos\Kicker\Component\View;
+use Gietos\Kicker\Model\Player;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -41,6 +42,11 @@ abstract class AbstractCommand
      */
     protected $alerts;
 
+    /**
+     * @var Player
+     */
+    protected $currentPlayer;
+
     public function __construct(Request $request, Response $response, EntityManagerInterface $entityManager, \Twig_Environment $twig, Session $session)
     {
         $this->request = $request;
@@ -60,8 +66,11 @@ abstract class AbstractCommand
             $this->redirect('/login');
         }
 
+        $this->currentPlayer = $this->entityManager->find(Player::class, $this->session->get('player_id'));
+
         $view = $this->doRun($parameters);
         $view->setParam('alerts', $this->alerts->get());
+        $view->setParam('currentPlayer', $this->currentPlayer);
         $this->response->setContent($view->render($this->twig));
     }
 

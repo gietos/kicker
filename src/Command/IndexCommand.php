@@ -5,6 +5,7 @@ namespace Gietos\Kicker\Command;
 use Doctrine\ORM\Query\Expr\OrderBy;
 use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\GainRepository;
+use Gietos\Kicker\Model\LeagueRepository;
 use Gietos\Kicker\Model\Player;
 use Gietos\Kicker\Model\ResultRepository;
 use Gietos\Kicker\Service\Game;
@@ -35,8 +36,10 @@ class IndexCommand extends AbstractCommand
 
         $results = (new ResultRepository($this->entityManager))->getAll();
 
+        $leagues = (new LeagueRepository($this->entityManager))->getAll();
+
         $gainMap = (new GainRepository($this->entityManager))->getMapForResults($results);
 
-        return $this->render('index.html.twig', compact('players', 'results', 'wins', 'losses', 'gainMap'));
+        return $this->render('index.html.twig', compact('players', 'results', 'wins', 'losses', 'gainMap', 'leagues'));
     }
 }

@@ -5,6 +5,7 @@ namespace Gietos\Kicker\Command;
 use Doctrine\ORM\Query\Expr\OrderBy;
 use Gietos\Kicker\Component\View;
 use Gietos\Kicker\Model\Player;
+use Gietos\Kicker\Model\PlayerRepository;
 use Gietos\Kicker\Model\Result;
 use Gietos\Kicker\Service\Game;
 use Moserware\Skills\GameInfo;
@@ -25,6 +26,7 @@ class ResultAddCommand extends AbstractCommand
                     $result = new Result;
                     $result->setWinners($winners);
                     $result->setLosers($losers);
+                    $result->setAddedBy($this->currentPlayer);
 
                     $game = new Game($this->entityManager, new FactorGraphTrueSkillCalculator, new GameInfo);
                     $players = $game->getRatings($result);
@@ -42,15 +44,11 @@ class ResultAddCommand extends AbstractCommand
             }
         }
 
-        $qb = $this->entityManager->createQueryBuilder();
-        $players = $qb->select('p')
-            ->from(Player::class, 'p')
-            ->andWhere('p.status = :statusActive')
-            ->setParameter('statusActive', Player::STATUS_ACTIVE)
-            ->addOrderBy(new OrderBy('p.mean - (3 * p.deviation)', 'DESC'))
-            ->getQuery()
-            ->getResult()
-        ;
+        if ($this->currentPlayer->getRole() == Player::ROLE_ADMIN) {
+            $players = (new PlayerRepository($this->entityManager))->getAll();
+        } else {
+            $players = (new PlayerRepository($this->entityManager))->getOwnLeagues($this->currentPlayer);
+        }
 
         $results = $this->entityManager->getRepository(Result::class)->findBy([], ['playedAt' => 'DESC'], 10);
 
